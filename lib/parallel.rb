@@ -31,6 +31,9 @@ module Parallel
     def self.map(array, count=DEFAULT_THREADS_COUNT, &block)
         raise ArgumentError, "Illegal arguments!" if count == 0
 
+        # to support enumerables
+        array = array.to_a
+
         # don't do any work for empty arrays
         return [] if array.empty?
 
@@ -53,6 +56,9 @@ module Parallel
     def self.select(array, count=DEFAULT_THREADS_COUNT, &block)
         raise ArgumentError, "Illegal arguments!" if count == 0
 
+        # to support enumerables
+        array = array.to_a
+
         # don't do any work for empty arrays
         return [] if array.empty?
 
@@ -73,6 +79,9 @@ module Parallel
     def self.any?(array, count=DEFAULT_THREADS_COUNT, &block)
         raise ArgumentError, "Illegal arguments!" if count == 0
 
+        # to support enumerables
+        array = array.to_a
+
         # don't do any work for empty arrays
         return false if array.empty?
 
@@ -90,6 +99,9 @@ module Parallel
     def self.all?(array, count=DEFAULT_THREADS_COUNT, &block)
         raise ArgumentError, "Illegal arguments!" if count == 0
 
+        # to support enumerables
+        array = array.to_a
+
         # don't do any work for empty arrays
         return true if array.empty?
 
@@ -106,13 +118,11 @@ module Parallel
 
     # returns array of enumerables
     def self.partition_per_thread_with_index(array, count)
-        array = array.to_a
         array.each_with_index.each_slice((array.length + count - 1) / count).to_a
     end
 
     # returns array of enumerables
     def self.partition_per_thread(array, count)
-        array = array.to_a
         array.each_slice((array.length + count - 1) / count).to_a
     end
 

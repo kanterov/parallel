@@ -39,6 +39,10 @@ describe Parallel do
         it "returns the same result as array for [1]" do
             Parallel.map([1]) { |x| x + 2 }.should eq([3])
         end
+
+        it "handles enumerable" do
+            Parallel.map((0..3)) { |x| x + 1 }.should eq([1,2,3,4])
+        end
     end
 
     describe :select do
@@ -74,6 +78,10 @@ describe Parallel do
 
         it "returns the same result as array for [2]" do
             Parallel.select([2]) { |x| x.even? }.should eq([2])
+        end
+
+        it "handles enumerable" do
+            Parallel.select((0..3)) { |x| x.even? }.should eq([0,2])
         end
     end
 
@@ -117,6 +125,9 @@ describe Parallel do
             Parallel.all?([true]).should eq([true].all?)
         end
 
+        it "handles enumerable" do
+            Parallel.all?((0..3)) { |x| x.even? }.should eq(false)
+        end
     end
 
     describe :any? do
@@ -159,6 +170,9 @@ describe Parallel do
             Parallel.any?([true]).should eq([true].any?)
         end
 
+        it "handles enumerable" do
+            Parallel.any?((0..3)) { |x| x.even? }.should eq(true)
+        end
     end
 
 end
